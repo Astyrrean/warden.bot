@@ -9,7 +9,6 @@ module.exports = {
         const returnEmbed = new Discord.EmbedBuilder()
         .setTitle('Using Module Reinforcement Packages')
         .setColor('#FF7100')
-        .setAuthor({name: 'Anti-Xeno Initiative', iconURL: config.icon})
         .setThumbnail('https://static.wikia.nocookie.net/elite-dangerous/images/9/96/MRP.png/revision/latest?cb=20170114223512')
         .setDescription(`Multiple MRPs will combine their module protection %, but always take damage in a set order:
 

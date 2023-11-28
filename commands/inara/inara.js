@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const config = require("../../config.json")
 
 module.exports = {
 	data: new Discord.SlashCommandBuilder()
@@ -17,7 +18,7 @@ module.exports = {
 				JSON.stringify(
 					{
 						"header": {
-							"appName": "AXIWarden",
+							"appName": config.botName,
 							"appVersion": "1.00",
 							"isDeveloped": true,
 							"APIkey": process.env.INARAKEY,
@@ -47,25 +48,29 @@ module.exports = {
 			}
 
 			const req = https.request(options, res => {
-
-				res.on('data', d => {
-					let response = JSON.parse(d); //prints inara's output to the node console, process it further here
-					var cmdr = response.events[0].eventData
-					const returnEmbed = new Discord.EmbedBuilder()
-					.setColor('#FF7100')
-					.setTitle(`CMDR ${cmdr.userName}`)
-					.setFooter(`${cmdr.userName}`, cmdr.avatarImageURL)
-					if (cmdr.preferredGameRole != undefined) { returnEmbed.addFields([{ name: "Role", value: `${cmdr.preferredGameRole}` }]) }
-					if (cmdr.preferredAllegianceName != undefined) { returnEmbed.addFields({ name:"Allegiance", value:`${cmdr.preferredAllegianceName}`, inline: true, }) }
-					if (cmdr.preferredPowerName != undefined) { returnEmbed.addFields({ name: "Power", value: `${cmdr.preferredPowerName}`, inline: true }) }
-					if (cmdr.commanderSquadron != undefined) { 
-						returnEmbed.addFields({ name: "Squadron", value: `[${cmdr.commanderSquadron.squadronName}](${cmdr.commanderSquadron.inaraURL})` })
-						returnEmbed.addFields({ name: "Squadron Rank", value: `${cmdr.commanderSquadron.squadronMemberRank}`, inline: true }) 
-					}
-					if (cmdr.inaraURL != undefined) { returnEmbed.addFields({ name: "Link", value: `${cmdr.inaraURL}`, inline: true }) }
-
-					interaction.reply({ embeds: [returnEmbed.setTimestamp()] });
-				})
+				try {
+					res.on('data', d => {
+						let response = JSON.parse(d); //prints inara's output to the node console, process it further here
+						var cmdr = response.events[0].eventData
+						const returnEmbed = new Discord.EmbedBuilder()
+						.setColor('#FF7100')
+						.setTitle(`CMDR ${cmdr.userName}`)
+						// .setFooter(`${cmdr.userName}`, cmdr.avatarImageURL)
+						if (cmdr.preferredGameRole != undefined) { returnEmbed.addFields([{ name: "Role", value: `${cmdr.preferredGameRole}` }]) }
+						if (cmdr.preferredAllegianceName != undefined) { returnEmbed.addFields({ name:"Allegiance", value:`${cmdr.preferredAllegianceName}`, inline: true, }) }
+						if (cmdr.preferredPowerName != undefined) { returnEmbed.addFields({ name: "Power", value: `${cmdr.preferredPowerName}`, inline: true }) }
+						if (cmdr.commanderSquadron != undefined) { 
+							returnEmbed.addFields({ name: "Squadron", value: `[${cmdr.commanderSquadron.squadronName}](${cmdr.commanderSquadron.inaraURL})` })
+							returnEmbed.addFields({ name: "Squadron Rank", value: `${cmdr.commanderSquadron.squadronMemberRank}`, inline: true }) 
+						}
+						if (cmdr.inaraURL != undefined) { returnEmbed.addFields({ name: "Link", value: `${cmdr.inaraURL}`, inline: true }) }
+	
+						interaction.reply({ embeds: [returnEmbed.setTimestamp()] });
+					})
+				}
+				catch (e) {
+					console.log(e)
+				}
 			})
 
 			req.on('error', error => {

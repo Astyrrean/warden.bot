@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 const academydata = require("./academydata.json");
 
+
 var data = new Discord.SlashCommandBuilder()
     .setName('academy')
     .setDescription('Anti-Xeno Academy: Learn how to fight Thargoids')

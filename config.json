@@ -1,6 +1,6 @@
 {
     "prefix": "-",
-    "icon": "https://axicloud.blob.core.windows.net/public/images/AXI_Insignia_Hypen_512.png",
+    "icon": "https://xenostrikeforce.com/wp-content/uploads/2023/11/XSF_Logo_Large_Final-1024x1024.png",
     "securityGroups": {
         "0": {
             "desc": "",
@@ -28,8 +28,6 @@
     },
     "dateFormatPattern": "DD.MM.YY, HH:mm",
     "maxMessageLength": 2000,
-    "zenURL": "https://zenquotes.io/api/random",
-    "tickURL": "https://elitebgs.app/api/ebgs/v5/ticks",
-    "factionURL": "https://elitebgs.app/api/ebgs/v5/factions",
-    "systemURL": "https://elitebgs.app/api/ebgs/v5/systems"
+    "botName": "GuardianAI",
+    "botAuthor": "Xeno Strike Force"
 }
