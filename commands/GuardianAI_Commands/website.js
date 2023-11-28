@@ -1,10 +1,11 @@
 const Discord = require("discord.js");
+
 module.exports = {
     data: new Discord.SlashCommandBuilder()
-	.setName('rtfm')
-	.setDescription('Link to the AXI Wiki Home Page'),
+	.setName('website')
+	.setDescription('Link to the XSF Home Website'),
     permissions: 0,
     execute(interaction) {
-        interaction.reply({ content: "🏠 https://wiki.antixenoinitiative.com/" });
+        interaction.reply({ content: "🏠 https://xenostrikeforce.com//" });
     }
 };

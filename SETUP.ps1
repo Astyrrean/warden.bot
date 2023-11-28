@@ -25,7 +25,7 @@ Add-Content .\.env "GOOGLEKEY="
 Add-Content .\.env ""
 Add-Content .\.env "# Database & API (optional)"
 Add-Content .\.env "DATABASE_URL_WATCH="
-Add-Content .\.env "DATABASE_URL_WARDEN="
+Add-Content .\.env "DATABASE_URL_GUARDIANAI="
 Add-Content .\.env "INARAKEY="
 Add-Content .\.env "GRAPHKEY="
 # Install Dependencies

@@ -40,7 +40,6 @@ module.exports = {
         const returnEmbed = new Discord.EmbedBuilder()
         .setTitle('Usage of shields on small and medium ships')
         .setColor('#FF7100')
-        .setAuthor({name: 'Anti-Xeno Initiative',iconURL: config.icon})
         .setDescription(message)
         interaction.reply({embeds: [returnEmbed.setTimestamp()]})
     }

@@ -8,7 +8,6 @@ module.exports = {
     execute (interaction) {
         const returnEmbed = new Discord.EmbedBuilder()
         .setTitle('Resources on Engineering')
-        .setAuthor({name: 'Anti-Xeno Initiative',iconURL: config.icon})
         .setThumbnail("https://edassets.org/static/img/engineers/Engineer_icon.png")
         .addFields(
             {name: "ED Materials", value: "https://www.edmaterials.app\nComprehensive guide on where and how to farm engineering materials. This is the single best resource for engineering." },

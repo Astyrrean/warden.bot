@@ -8,7 +8,7 @@ module.exports = {
     execute (interaction) {
         const returnEmbed = new Discord.EmbedBuilder()
         .setTitle('Beam Lasers')
-        .setAuthor({name: 'Anti-Xeno Initiative',iconURL: config.icon})
+        .setAuthor({name: config.botAuthor,iconURL: config.icon})
         .setDescription(`Thermal vent beam lasers, often called TV beams, are a very useful weapon in AX. While useful for keeping cool during the shield phase, they **cannot** be used for cold orbiting while firing weapons. The added distro drain will heat you up more instead of cooling you down.`)
         const buttonRow = new Discord.ActionRowBuilder()
           .addComponents(new Discord.ButtonBuilder().setLabel('Learn more about TV beams').setStyle(Discord.ButtonStyle.Link).setURL('https://wiki.antixenoinitiative.com/en/lasers'),)

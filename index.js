@@ -5,12 +5,11 @@ const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const cron = require('node-cron');
 const fs = require('fs');
-
+const colors = require('colors')
 // Local Modules
-const { leaderboardInteraction } = require('./interaction/submission.js');
-const { query } = require("./db");
+
+// const { query } = require("./db");
 const config = require('./config.json');
-const { fccinteraction } = require("./interaction/fcc.js");
 
 // Discord client setup
 const serverIntents = new IntentsBitField(3276799);
@@ -38,6 +37,7 @@ for (const folder of commandFolders) {
 /**
  * Log a discord bot event in the Log Channel
  * @author  (Mgram) Marcus Ingram
+ * Modified @testfax (Medi0cr3)
  */
 async function botLog(embed,severity) {
 	let logColor
@@ -54,7 +54,7 @@ async function botLog(embed,severity) {
 	}
 	embed.setColor(logColor)
 	.setTimestamp()
-	.setFooter({ text: 'Warden Logs', iconURL: config.icon });
+	.setFooter({ text: `${config.botName}  Logs`, iconURL: config.icon });
 	try {
 		await bot.channels.cache.get(process.env.LOGCHANNEL).send({ embeds: [embed], })
 	} catch {
@@ -65,6 +65,7 @@ async function botLog(embed,severity) {
 /**
  * Deploys Command objects to the Discord API registering any changes
  * @author  (Mgram) Marcus Ingram
+ * Modified @testfax (Medi0cr3)
  */
 async function deployCommands() {
 	const commands = [];
@@ -99,14 +100,14 @@ async function deployCommands() {
  */
 bot.once("ready", async() => {
 	await deployCommands();
-	botLog(new EmbedBuilder().setDescription(`💡 Warden is now online! logged in as ${bot.user.tag}`).setTitle(`Warden Online`),2);
-	console.log(`✅ Warden is now online! logged in as ${bot.user.tag}`)
+	botLog(new EmbedBuilder().setDescription(`💡 ${bot.user.username} is now online! logged in as ${bot.user.tag}`).setTitle(`${bot.user.username} Online`),2);
+	console.log(`✅ ${bot.user.username} is now online!`)
 	// Scheduled Role Backup Task
-	if(process.env.MODE == "PROD") {
-		cron.schedule('*/5 * * * *', function () {
-			backupClubRoles()
-		});
-	}
+	// if(process.env.MODE == "PROD") {
+	// 	cron.schedule('*/5 * * * *', function () {
+	// 		backupClubRoles()
+	// 	});
+	// }
 })
 
 
@@ -140,34 +141,7 @@ bot.on('interactionCreate', async interaction => {
 
 	if (interaction.isButton()) {
 		botLog(new EmbedBuilder().setDescription(`Button triggered by user **${interaction.user.tag}** - Button ID: ${interaction.customId}`),0);
-		if (interaction.customId.startsWith("submission")) {
-			interaction.deferUpdate();
-			leaderboardInteraction(interaction);
-			return;
-		}
-		if (interaction.customId.startsWith("fcc")) {
-			interaction.deferUpdate();
-			fccinteraction(interaction);
-			return;
-		}
-		if (interaction.customId === "platformpc") {
-			interaction.deferUpdate();
-			interaction.member.roles.add("428260067901571073")
-			interaction.member.roles.add("380247760668065802")
-			botLog(new EmbedBuilder().setDescription(`Welcome Verification passed - User: **${interaction.user.tag}**`),0)
-		} else if (interaction.customId === "platformxb") {
-			interaction.deferUpdate();
-			interaction.member.roles.add("533774176478035991")
-			interaction.member.roles.add("380247760668065802")
-			botLog(new EmbedBuilder().setDescription(`Welcome Verification passed - User: **${interaction.user.tag}**`),0)
-		} else if (interaction.customId === "platformps") {
-			interaction.deferUpdate();
-			interaction.member.roles.add("428259777206812682")
-			interaction.member.roles.add("380247760668065802")
-			botLog(new EmbedBuilder().setDescription(`Welcome Verification passed - User: **${interaction.user.tag}**`),0)
-		}
-		interaction.member.roles.add("642840406580658218");
-		interaction.member.roles.add("642839749777948683");
+		
 	}
 });
 
@@ -203,31 +177,7 @@ bot.on('guildMemberRemove', member => {
 	),2)
 })
 
-/**
- * Role backup system, takes the targetted role and table and backs up to SQL database.
- * @author  (Mgram) Marcus Ingram
- */
-async function backupClubRoles() {
-	let guilds = bot.guilds.cache.map((guild) => guild);
-	let guild = guilds[0]
-	await guild.members.fetch()
-	let members = guild.roles.cache.get('974673947784269824').members.map(m=>m.user)
-	try {
-		await query(`DELETE FROM club10`)
-	} catch (err) {
-		console.log(`Unable to delete rows from table`)
-		return;
-	}
-	for (let member of members) {
-		let name = await guild.members.cache.get(member.id).nickname
-		await query(`INSERT INTO club10(user_id, name, avatar) VALUES($1,$2,$3)`, [
-			member.id,
-			name,
-			member.avatar
-		])
-	}
-	console.log('Club 10 table updated')
-}
+
 
 if(process.env.MODE == "PROD") {
 	//the following part handles the triggering of reminders
